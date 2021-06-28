@@ -1,4 +1,6 @@
-pragma solidity ^0.5.16;
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.4;
 
 contract TodoList {
   uint public taskCount = 0;
@@ -10,7 +12,7 @@ contract TodoList {
   }
 
   mapping(uint => Task) public tasks;
-  
+
   event TaskCreated(
     uint id,
     string content,
@@ -21,9 +23,10 @@ contract TodoList {
     uint id,
     bool completed
   );
-  
-  constructor() public {
-    createTask("Create First Dapp");
+
+  constructor() {
+    createTask("Create First Dapp 1");
+    createTask("Create First Dapp 2");
   }
 
   function createTask(string memory _content) public {

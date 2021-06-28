@@ -1,26 +1,49 @@
 
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+require('dotenv').config();
+const mnemonic = process.env.MNEMONIC
+const infuraKey = process.env.INFURAKEY;
+
 module.exports = {
   networks: {
     development: {
-      host: "127.0.0.1",
-      port: 7545,
-      network_id: "*" // Match any network id
-    },
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
+      from: '0x67F5B9e57EaE4f5f32E98BB7D7D1fb8F90AcFb45',
+      gas: 6700000,
+      gasPrice: 135e9,
+      accounts: {
+				mnemonic
+			}
+     },
     ropsten: {
       provider: function() {
-        // return new HDWalletProvider(MNEMONIC, "https://ropsten.infura.io/YOUR_API_KEY")
-        const HDWalletProvider = require("@truffle/hdwallet-provider");
-        const MNEMONIC = "first west stock bleak govern sell flock crack promote involve venture lunch";
-        return new HDWalletProvider(MNEMONIC, "https://ropsten.infura.io/v3/08744914b5f04c08bff524c959686bbe")
+        return new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/${infuraKey}`)
+        // const HDWalletProvider = require("@truffle/hdwallet-provider");
+        // const MNEMONIC = "first west stock bleak govern sell flock crack promote involve venture lunch";
+        // return new HDWalletProvider(MNEMONIC, "https://ropsten.infura.io/v3/08744914b5f04c08bff524c959686bbe")
       },
       network_id: 3,
-      gas: 4000000      //make sure this gas allocation isn't over 4M, which is the max
+      gas: 4000000,      //make sure this gas allocation isn't over 4M, which is the max
+      gasPrice: 135e9,
+      accounts: {
+				mnemonic
+			}
     }
   },
-  solc: {
-    optimizer: {
-      enabled: true,
-      runs: 200
+  // Configure your compilers
+  compilers: {
+    solc: {
+      version: "0.8.4",    // Fetch exact version from solc-bin (default: truffle's version)
+      // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
+      settings: {          // See the solidity docs for advice about optimization and evmVersion
+       optimizer: {
+         enabled: true,
+         runs: 500
+       },
+      // evmVersion: "istanbul"
+      }
     }
   }
 }
