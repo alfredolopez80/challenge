@@ -30,30 +30,28 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+      <v-app-bar-title v-text="title" />
+      <template v-slot:extension>
+        <v-tabs
+          class="tabs"
+          centered
+          grow
+          height="60px"
+          v-model="model"
+        >
+          <v-tab v-for="tab in menus" :key="tab.id" :to="tab.to" exact>
+            {{ tab.title }}
+          </v-tab>
+        </v-tabs>
+
+      </template>
     </v-app-bar>
+
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
-    <!-- <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
     <v-footer
       :absolute="!fixed"
       app
@@ -66,32 +64,41 @@
 <script>
 export default {
   data () {
+    const array = [
+      {
+        id: 0,
+        icon: 'mdi-apps',
+        title: 'Welcome',
+        to: '/'
+      },
+      {
+        id: 1,
+        icon: 'mdi-book-open',
+        title: 'RT Orderbook',
+        to: '/orderbook'
+      },
+      {
+        id: 2,
+        icon: 'mdi-candle',
+        title: 'Candlesticks Graphic',
+        to: '/candlesgraph'
+      },
+      {
+        id: 3,
+        icon: 'mdi-wallet',
+        title: 'Wallet Integration',
+        to: '/wallet'
+      }
+    ];
+    const menu = array.slice(1,4);
+    console.log(menu, array);
     return {
+      model:null,
       clipped: false,
       drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'RT Orderbook',
-          to: '/orderbook'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Candlesticks Graphic',
-          to: '/candlesgraph'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Wallet Integration',
-          to: '/wallet'
-        }
-      ],
+      items: array,
+      menus: menu,
       miniVariant: false,
       right: true,
       rightDrawer: false,
